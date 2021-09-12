@@ -4,12 +4,13 @@ local component = require("component")
 --   return
 -- end
 local event = require("event")
+local serialization = require("serialization")
 local tunnel = component.tunnel
 
 local function scan(x,z,bool)
   tunnel.send("scan",x,z,bool)
   local _, _, _, _, _, response = event.pull("modem_message")
-  return response
+  return serialization.unserialize(response)
 end
 
 if not component.isAvailable("hologram") then
